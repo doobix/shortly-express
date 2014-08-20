@@ -6,11 +6,12 @@ var bodyParser = require('body-parser');
 var session = require('express-session');
 var bcrypt = require('bcrypt-nodejs');
 
+/*
 var passport = require('passport');
 var GitHubStrategy = require('passport-github').Strategy;
 var GITHUB_CLIENT_ID = "0b0e563c2a375f94bf84";
 var GITHUB_CLIENT_SECRET = "2f30cacd6badd17ed41211d83e0ab85d826a06b9";
-
+*/
 
 var db = require('./app/config');
 var Users = require('./app/collections/users');
@@ -31,9 +32,9 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(__dirname + '/public'));
 app.use(session({secret: 'secretkey'}));
 
-// Passport
+/*// Passport
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session());*/
 
 // Check if user is logged in
 function checkUser(req, res, next) {
@@ -210,8 +211,8 @@ app.get('/*', function(req, res) {
   });
 });
 
-/*
-// Passport session setup.
+
+/*// Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
 //   this will be as simple as storing the user ID when serializing, and finding
@@ -286,8 +287,8 @@ app.get('/logout', function(req, res){
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login')
-}
-*/
+}*/
+
 
 console.log('Shortly is listening on 4568');
 app.listen(4568);
