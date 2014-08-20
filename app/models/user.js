@@ -1,6 +1,7 @@
 var db = require('../config');
-var bcrypt = require('bcrypt-nodejs');
+// var bcrypt = require('bcrypt-nodejs');
 var Promise = require('bluebird');
+var bcrypt = Promise.promisifyAll(require('bcrypt-nodejs'));
 
 var User = db.Model.extend({
   tableName: 'users',
@@ -11,6 +12,14 @@ var User = db.Model.extend({
       var hash = bcrypt.hashSync(model.get('password'), salt)
       model.set('salt', salt);
       model.set('password', hash);
+    });
+  },
+  comparePassword: function(inputPassword, databasePassword) {
+    // Compare input password with hashed password in db
+    return bcrypt.compareAsync(inputPassword, databasePassword)
+    .then(function(result) {
+      console.log(result);
+      return result;
     });
   }
 });

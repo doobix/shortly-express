@@ -4,7 +4,6 @@ var partials = require('express-partials');
 var bodyParser = require('body-parser');
 
 var session = require('express-session');
-var bcrypt = require('bcrypt-nodejs');
 
 /*
 var passport = require('passport');
@@ -162,9 +161,10 @@ function(req, res) {
   var password = req.body.password;
   
   new User({ username: username }).fetch().then(function(found) {
+    
     if (found) {
-      // Compare input password with hashed password in db
-      bcrypt.compare(password, found.attributes.password, function(err, result) {
+      found.comparePassword(password, found.attributes.password)
+      .then(function(result){
         // Set session if password matches
         if (result) {
           req.session.regenerate(function() {
@@ -176,6 +176,7 @@ function(req, res) {
           res.redirect('/login');
         }
       });
+
     } else {
       res.redirect('/login');
     }
